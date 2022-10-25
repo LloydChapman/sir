@@ -1,0 +1,1 @@
+useDynLib('sir', .registration = TRUE)
