@@ -85,28 +85,28 @@ __host__ __device__ T odin_max(T x, T y) {
   return x > y ? x : y;
 }
 // [[dust::class(sir)]]
+// [[dust::param(I_ini, has_default = TRUE, default_value = 10L, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
+// [[dust::param(S_ini, has_default = TRUE, default_value = 1000L, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
 // [[dust::param(beta, has_default = TRUE, default_value = 0.2, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
 // [[dust::param(dt, has_default = TRUE, default_value = 1L, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
 // [[dust::param(gamma, has_default = TRUE, default_value = 0.1, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
-// [[dust::param(I_ini, has_default = TRUE, default_value = 10L, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
-// [[dust::param(S_ini, has_default = TRUE, default_value = 1000L, rank = 0, min = -Inf, max = Inf, integer = FALSE)]]
 class sir {
 public:
   using real_type = double;
   using rng_state_type = dust::random::generator<real_type>;
   using data_type = dust::no_data;
   struct shared_type {
+    real_type I_ini;
+    real_type S_ini;
     real_type beta;
     real_type dt;
     real_type gamma;
-    real_type I_ini;
     real_type initial_I;
     real_type initial_I_inc;
     real_type initial_R;
     real_type initial_S;
     real_type initial_time;
     real_type p_IR;
-    real_type S_ini;
     real_type steps_per_day;
   };
   struct internal_type {
@@ -368,16 +368,16 @@ dust::pars_type<sir> dust_pars<sir>(cpp11::list user) {
   shared->initial_I_inc = 0;
   shared->initial_R = 0;
   shared->initial_time = 0;
+  shared->I_ini = 10;
+  shared->S_ini = 1000;
   shared->beta = 0.20000000000000001;
   shared->dt = 1;
   shared->gamma = 0.10000000000000001;
-  shared->I_ini = 10;
-  shared->S_ini = 1000;
+  shared->I_ini = user_get_scalar<real_type>(user, "I_ini", shared->I_ini, NA_REAL, NA_REAL);
+  shared->S_ini = user_get_scalar<real_type>(user, "S_ini", shared->S_ini, NA_REAL, NA_REAL);
   shared->beta = user_get_scalar<real_type>(user, "beta", shared->beta, NA_REAL, NA_REAL);
   shared->dt = user_get_scalar<real_type>(user, "dt", shared->dt, NA_REAL, NA_REAL);
   shared->gamma = user_get_scalar<real_type>(user, "gamma", shared->gamma, NA_REAL, NA_REAL);
-  shared->I_ini = user_get_scalar<real_type>(user, "I_ini", shared->I_ini, NA_REAL, NA_REAL);
-  shared->S_ini = user_get_scalar<real_type>(user, "S_ini", shared->S_ini, NA_REAL, NA_REAL);
   shared->initial_I = shared->I_ini;
   shared->initial_S = shared->S_ini;
   shared->p_IR = 1 - std::exp(- shared->gamma * shared->dt);

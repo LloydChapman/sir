@@ -15,11 +15,11 @@ sir <- R6::R6Class(
     ptr_ = NULL,
     gpu_config_ = NULL,
     methods_ = NULL,
-    param_ = list(beta = list(has_default = TRUE, default_value = 0.2, rank = 0, min = -Inf, max = Inf, integer = FALSE),
+    param_ = list(I_ini = list(has_default = TRUE, default_value = 10L, rank = 0, min = -Inf, max = Inf, integer = FALSE),
+     S_ini = list(has_default = TRUE, default_value = 1000L, rank = 0, min = -Inf, max = Inf, integer = FALSE),
+     beta = list(has_default = TRUE, default_value = 0.2, rank = 0, min = -Inf, max = Inf, integer = FALSE),
      dt = list(has_default = TRUE, default_value = 1L, rank = 0, min = -Inf, max = Inf, integer = FALSE),
-     gamma = list(has_default = TRUE, default_value = 0.1, rank = 0, min = -Inf, max = Inf, integer = FALSE),
-     I_ini = list(has_default = TRUE, default_value = 10L, rank = 0, min = -Inf, max = Inf, integer = FALSE),
-     S_ini = list(has_default = TRUE, default_value = 1000L, rank = 0, min = -Inf, max = Inf, integer = FALSE))
+     gamma = list(has_default = TRUE, default_value = 0.1, rank = 0, min = -Inf, max = Inf, integer = FALSE))
   ),
 
   public = list(
